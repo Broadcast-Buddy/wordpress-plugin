@@ -4,7 +4,7 @@ Tags: whatsapp, woocommerce, notifications, chat, order tracking
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -80,6 +80,11 @@ You can use `[broadcast_buddy_whatsapp_button]` or `[broadcastbuddy_chat_button 
 4. Floating WhatsApp greeting chat widget rendered on the storefront.
 
 == Changelog ==
+
+= 1.3.6 =
+* Updated Text Domain header to broadcast-buddy to match the official WordPress.org plugin directory slug.
+* Packaged distribution archive as broadcast-buddy.zip.
+* Linked dedicated public open-source repository at https://github.com/Broadcast-Buddy/wordpress-plugin.
 
 = 1.3.5 =
 * Resolved WordPress.org Plugin Directory review feedback regarding script/style enqueueing and source code disclosure.

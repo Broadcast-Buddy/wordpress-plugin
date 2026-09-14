@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Broadcast Buddy
  * Description: Automated WhatsApp order notifications, live connection management, test sandbox, and interactive/hybrid floating chat widget with bot flow automation powered by Broadcast Buddy.
- * Version: 1.3.5
+ * Version: 1.3.6
  * Author: Broadcast Buddy Team
  * Author URI: https://broadcastbuddy.app
  * Support: support@broadcastbuddy.app
@@ -86,7 +86,7 @@ class BroadcastBuddy {
      */
     public function enqueue_admin_assets($hook) {
         // Enqueue admin menu icon styling across admin
-        wp_register_style('broadcast-buddy-admin-menu', false, array(), '1.3.5');
+        wp_register_style('broadcast-buddy-admin-menu', false, array(), '1.3.6');
         wp_enqueue_style('broadcast-buddy-admin-menu');
         $menu_css = '
             #toplevel_page_broadcast-buddy .wp-menu-image:before {
@@ -107,7 +107,7 @@ class BroadcastBuddy {
         }
 
         // Register and enqueue admin dashboard styles via standard WordPress API
-        wp_register_style('broadcast-buddy-admin', false, array(), '1.3.5');
+        wp_register_style('broadcast-buddy-admin', false, array(), '1.3.6');
         wp_enqueue_style('broadcast-buddy-admin');
         $admin_css = '
             .bb-mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 6px; }
@@ -120,7 +120,7 @@ class BroadcastBuddy {
         ';
         wp_add_inline_style('broadcast-buddy-admin', $admin_css);
 
-        wp_register_script('broadcast-buddy-admin', false, array('jquery'), '1.3.5', true);
+        wp_register_script('broadcast-buddy-admin', false, array('jquery'), '1.3.6', true);
         wp_enqueue_script('broadcast-buddy-admin');
 
         $api_key = $this->get_opt('broadcast_buddy_api_key', 'bb_api_key', '');
@@ -591,7 +591,7 @@ class BroadcastBuddy {
                     <div>
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <h1 style="color: #fff; font-size: 22px; font-weight: 800; margin: 0; padding: 0; line-height: 1.2;">Broadcast Buddy</h1>
-                            <span style="background: #10b981; color: #022c22; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 12px;">v1.3.4</span>
+                            <span style="background: #10b981; color: #022c22; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 12px;">v1.3.6</span>
                         </div>
                         <p style="color: #94a3b8; font-size: 13px; margin: 4px 0 0 0;">WhatsApp Order Notifications, Interactive Chat Widgets &amp; Bot Automation</p>
                     </div>
@@ -1205,7 +1205,7 @@ class BroadcastBuddy {
             'broadcast-buddy-widget',
             plugins_url('broadcastbuddy-widget.css', __FILE__),
             array(),
-            '1.3.5'
+            '1.3.6'
         );
         wp_enqueue_style('broadcast-buddy-widget');
 
@@ -1216,7 +1216,7 @@ class BroadcastBuddy {
             'broadcast-buddy-widget',
             plugins_url('broadcastbuddy-widget.js', __FILE__),
             array(),
-            '1.3.5',
+            '1.3.6',
             true
         );
 
