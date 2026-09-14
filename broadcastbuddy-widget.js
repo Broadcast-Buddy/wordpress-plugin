@@ -638,7 +638,12 @@
             config.botName = c.botName || config.botName;
             config.botAvatar = c.botAvatar || config.botAvatar;
             config.showWhatsAppButton = c.showWhatsAppButton !== undefined ? c.showWhatsAppButton : config.showWhatsAppButton;
-            config.hideBranding = c.hideBranding === true || c.hideBranding === 1;
+            // Only enterprise subscribers can hide branding
+            if (c.isEnterprise !== undefined) {
+              config.hideBranding = Boolean(c.isEnterprise && (c.hideBranding === true || c.hideBranding === 1 || c.hideBranding === 'true'));
+            } else {
+              config.hideBranding = Boolean(c.hideBranding === true || c.hideBranding === 1 || c.hideBranding === 'true');
+            }
             config.phone = c.phone || config.phone;
             config.title = c.title || config.title;
             config.subtitle = c.subtitle || config.subtitle;

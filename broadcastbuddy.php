@@ -166,11 +166,18 @@ class BroadcastBuddy {
                     $("#bb-preview-interactive-options").hide();
                     $("#bb-preview-wa-handoff").hide();
                 }
+
+                var hideBranding = $("#broadcast_buddy_widget_hide_branding").is(":checked");
+                if (hideBranding) {
+                    $("#bb-preview-branding").hide();
+                } else {
+                    $("#bb-preview-branding").show();
+                }
             }
 
             $("#broadcast_buddy_widget_title, #broadcast_buddy_widget_subtitle, #broadcast_buddy_widget_btn_text, #broadcast_buddy_widget_bot_name").on("input", updatePreview);
             $("#broadcast_buddy_widget_color").on("input", updatePreview);
-            $("#broadcast_buddy_widget_show_wa_btn").on("change", updatePreview);
+            $("#broadcast_buddy_widget_show_wa_btn, #broadcast_buddy_widget_hide_branding").on("change", updatePreview);
 
             // Mode Selector Cards click
             $(".bb-mode-card").on("click", function() {
@@ -450,6 +457,11 @@ class BroadcastBuddy {
             'sanitize_callback' => 'sanitize_text_field',
             'default'           => '3500'
         ));
+        register_setting('broadcast_buddy_widget_group', 'broadcast_buddy_widget_hide_branding', array(
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default'           => '0'
+        ));
 
         // Tab 3: WooCommerce Group
         register_setting('broadcast_buddy_woocommerce_group', 'broadcast_buddy_notify_admin_new', array(
@@ -547,6 +559,9 @@ class BroadcastBuddy {
 
         $widget_auto_open = $this->get_opt('broadcast_buddy_widget_auto_open', 'bb_widget_auto_open', '3500');
         if ($widget_auto_open === '') $widget_auto_open = '3500';
+
+        $raw_hide_branding = $this->get_opt('broadcast_buddy_widget_hide_branding', 'bb_widget_hide_branding', '0');
+        $widget_hide_branding = ($raw_hide_branding === '1' || $raw_hide_branding === 'true' || $raw_hide_branding === 'on');
 
         // WooCommerce Notification Defaults with strict fallback
         $raw_notify_admin_new = $this->get_opt('broadcast_buddy_notify_admin_new', 'bb_notify_admin_new', '1');
@@ -825,6 +840,16 @@ class BroadcastBuddy {
                                             </select>
                                         </td>
                                     </tr>
+                                    <tr valign="top">
+                                        <th scope="row" style="font-weight: 700;">Widget Branding</th>
+                                        <td>
+                                            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #1e293b;">
+                                                <input type="checkbox" name="broadcast_buddy_widget_hide_branding" id="broadcast_buddy_widget_hide_branding" value="1" <?php checked($widget_hide_branding, true); ?> style="border-radius: 4px;" />
+                                                Hide "Powered by Broadcast Buddy" branding
+                                            </label>
+                                            <p class="description">Remove the Broadcast Buddy branding link from the bottom of your floating chat widget.</p>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
 
@@ -838,14 +863,17 @@ class BroadcastBuddy {
                                 <div style="margin-top: 10px;">
                                     <!-- Card Preview -->
                                     <div id="bb-preview-card" style="background: #fff; border-radius: 20px; padding: 16px; box-shadow: 0 12px 30px rgba(0,0,0,0.12); border: 1px solid #f1f5f9; margin-bottom: 14px;">
-                                        <div style="display: flex; gap: 10px; align-items: flex-start;">
-                                            <div id="bb-preview-icon" style="width: 38px; height: 38px; border-radius: 50%; background: <?php echo esc_attr($widget_color); ?>; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(37,211,102,0.3);">
-                                                <svg viewBox="0 0 32 32" width="22" height="22" fill="currentColor" style="display:block;"><path d="M16 2C8.28 2 2 8.28 2 16c0 2.7.76 5.23 2.08 7.39L2.5 29.5l6.32-1.54C10.9 29.18 13.37 30 16 30c7.72 0 14-6.28 14-14S23.72 2 16 2zm8.17 19.86c-.34.96-1.7 1.83-2.77 2.06-.73.16-1.69.29-4.89-1.04-4.1-1.7-6.73-5.88-6.94-6.15-.2-.27-1.67-2.22-1.67-4.24 0-2.02 1.05-3.01 1.43-3.42.38-.41.83-.51 1.1-.51.27 0 .55 0 .79.01.25.01.59-.1.92.7.34.82 1.17 2.85 1.27 3.06.1.21.17.45.03.72-.14.28-.21.45-.41.69-.21.24-.43.54-.62.72-.21.2-.42.42-.18.83.24.41 1.07 1.76 2.3 2.85 1.58 1.41 2.91 1.85 3.32 2.05.41.21.65.17.89-.1.24-.28 1.03-1.2 1.3-1.61.27-.41.55-.34.93-.2.38.14 2.41 1.14 2.82 1.34.41.21.69.31.79.48.1.17.1.99-.24 1.95z"/></svg>
+                                        <div style="display: flex; gap: 10px; align-items: flex-start; justify-content: space-between;">
+                                            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                                <div id="bb-preview-icon" style="width: 38px; height: 38px; border-radius: 50%; background: <?php echo esc_attr($widget_color); ?>; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(37,211,102,0.3);">
+                                                    <svg viewBox="0 0 32 32" width="22" height="22" fill="currentColor" style="display:block;"><path d="M16 2C8.28 2 2 8.28 2 16c0 2.7.76 5.23 2.08 7.39L2.5 29.5l6.32-1.54C10.9 29.18 13.37 30 16 30c7.72 0 14-6.28 14-14S23.72 2 16 2zm8.17 19.86c-.34.96-1.7 1.83-2.77 2.06-.73.16-1.69.29-4.89-1.04-4.1-1.7-6.73-5.88-6.94-6.15-.2-.27-1.67-2.22-1.67-4.24 0-2.02 1.05-3.01 1.43-3.42.38-.41.83-.51 1.1-.51.27 0 .55 0 .79.01.25.01.59-.1.92.7.34.82 1.17 2.85 1.27 3.06.1.21.17.45.03.72-.14.28-.21.45-.41.69-.21.24-.43.54-.62.72-.21.2-.42.42-.18.83.24.41 1.07 1.76 2.3 2.85 1.58 1.41 2.91 1.85 3.32 2.05.41.21.65.17.89-.1.24-.28 1.03-1.2 1.3-1.61.27-.41.55-.34.93-.2.38.14 2.41 1.14 2.82 1.34.41.21.69.31.79.48.1.17.1.99-.24 1.95z"/></svg>
+                                                </div>
+                                                <div>
+                                                    <div id="bb-preview-title" style="font-weight: 800; font-size: 15px; color: #0f172a; line-height: 1.2;"><?php echo esc_html($widget_title); ?></div>
+                                                    <div id="bb-preview-subtitle" style="font-size: 12px; color: #64748b; margin-top: 4px; line-height: 1.35;"><?php echo esc_html($widget_subtitle); ?></div>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <div id="bb-preview-title" style="font-weight: 800; font-size: 15px; color: #0f172a; line-height: 1.2;"><?php echo esc_html($widget_title); ?></div>
-                                                <div id="bb-preview-subtitle" style="font-size: 12px; color: #64748b; margin-top: 4px; line-height: 1.35;"><?php echo esc_html($widget_subtitle); ?></div>
-                                            </div>
+                                            <div style="width: 24px; height: 24px; border-radius: 50%; background: #f1f5f9; color: #94a3b8; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; font-weight: 700; line-height: 1;">&times;</div>
                                         </div>
 
                                         <!-- Interactive Flow Options Mock -->
@@ -864,6 +892,11 @@ class BroadcastBuddy {
 
                                         <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid #f8fafc;">
                                             <span id="bb-preview-btn" style="color: <?php echo esc_attr($widget_color); ?>; font-weight: 700; font-size: 12px; display: inline-flex; align-items: center; gap: 4px;"><?php echo esc_html($widget_btn_text); ?></span>
+                                        </div>
+
+                                        <!-- Powered by Broadcast Buddy Branding Footer -->
+                                        <div id="bb-preview-branding" style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #f1f5f9; text-align: center; font-size: 11px; color: #94a3b8; font-weight: 500; <?php echo $widget_hide_branding ? 'display: none;' : ''; ?>">
+                                            Powered by <a href="https://broadcastbuddy.app" target="_blank" rel="noopener noreferrer" style="color: #64748b; font-weight: 700; text-decoration: none;">Broadcast Buddy</a>
                                         </div>
                                     </div>
 
@@ -1220,6 +1253,9 @@ class BroadcastBuddy {
             true
         );
 
+        $raw_hide_branding = $this->get_opt('broadcast_buddy_widget_hide_branding', 'bb_widget_hide_branding', '0');
+        $hide_branding = ($raw_hide_branding === '1' || $raw_hide_branding === 'true' || $raw_hide_branding === 'on');
+
         $widget_config = array(
             'sessionId'          => $api_key,
             'mode'               => $mode,
@@ -1227,6 +1263,7 @@ class BroadcastBuddy {
             'botName'            => $bot_name,
             'botAvatar'          => $bot_avatar,
             'showWhatsAppButton' => $show_wa_btn,
+            'hideBranding'       => $hide_branding,
             'phone'              => $phone,
             'title'              => $title,
             'message'            => $subtitle,
