@@ -7,7 +7,7 @@
  * Author URI: https://broadcastbuddy.app
  * Support: support@broadcastbuddy.app
  * Source Code: https://github.com/Broadcast-Buddy/wordpress-plugin
- * Text Domain: broadcastbuddy
+ * Text Domain: broadcast-buddy
  * Requires at least: 5.8
  * Requires PHP: 7.4
  * WC requires at least: 6.0

@@ -56,7 +56,7 @@ This plugin relies on external services provided by Broadcast Buddy to connect w
 
 == Installation ==
 
-1. Upload `broadcastbuddy.zip` through the 'Plugins > Add New > Upload Plugin' screen in WordPress.
+1. Upload `broadcast-buddy.zip` through the 'Plugins > Add New > Upload Plugin' screen in WordPress.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Navigate to the 'Broadcast Buddy' menu in your WordPress Admin sidebar.
 4. Paste your Broadcast Buddy API Key (Session ID) and save.
